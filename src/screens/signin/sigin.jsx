@@ -7,7 +7,7 @@ import { Input } from "../../components/input";
 import { TextButton } from "../../components/textButton";
 import { colors, modifiers } from "../../utils/theme";
 
-function Signin({navigation}) {
+function Signin({ navigation }) {
   const [showPass, setShowPass] = useState(false);
 
   const handleShowPass = () => {
@@ -17,11 +17,10 @@ function Signin({navigation}) {
       setShowPass(true);
     }
   };
-  
 
-  const goToSignup=()=>{
-    navigation.navigate('Signup')
-  }
+  const goToSignup = () => {
+    navigation.navigate("Signup");
+  };
 
   return (
     <ScrollView
@@ -46,9 +45,12 @@ function Signin({navigation}) {
         <View style={styles.textBtnCon}>
           <TextButton title={"Forgot your password?"} />
         </View>
-        <BButton title={'Sign in'} />
+        <BButton title={"Sign in"} />
         <View style={styles.goToSignupCon}>
-          <TextButton title={"Dont have an account yet signup"} onPress={goToSignup}/>
+          <TextButton
+            title={"Dont have an account yet signup"}
+            onPress={goToSignup}
+          />
         </View>
       </View>
     </ScrollView>
