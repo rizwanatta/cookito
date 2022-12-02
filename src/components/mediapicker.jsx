@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import {BButton} from './BButton';
 
-function MediaPicker({show,onClose}){
+function MediaPicker({show,onClose, onCameraPressed, onGalleryPressed}){
 
   return (
     <View>
@@ -19,7 +19,7 @@ function MediaPicker({show,onClose}){
 
          <View style={{flexDirection: 'row', justifyContent:'space-evenly'}}>
     
-         <TouchableOpacity style={styles.circleView}> 
+         <TouchableOpacity style={styles.circleView} onPress={onCameraPressed}> 
            <Ionicons name={'camera-sharp'} size={50} color={'white'}/>
         </TouchableOpacity > 
 

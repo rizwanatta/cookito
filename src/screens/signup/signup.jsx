@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Camera, CameraType } from "expo-camera";
 import {
   View,
   ScrollView,
@@ -16,6 +15,7 @@ import { TextButton } from "../../components/textButton";
 import { colors, modifiers } from "../../utils/theme";
 import { firebase } from "../../services/firebaseConfig";
 import { MediaPicker } from "../../components/mediapicker";
+import { CustomCamera } from "../../components/customCamera";
 
 function Signup() {
   const [showPass, setShowPass] = useState(false);
@@ -23,6 +23,7 @@ function Signup() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [isPickerShown, setIsPickerShown] = useState(false);
+  const [isCameraShown, setIsCameraShown] = useState(false);
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -92,7 +93,10 @@ function Signup() {
         <BButton title={"Sign up"} onButtonPress={onSignupPress} />
       </View>
 
-      <MediaPicker show={isPickerShown} onClose={onImagePressed} />
+      <MediaPicker show={isPickerShown} onClose={onImagePressed}  onCameraPressed={()=>{setIsCameraShown(!isCameraShown)}}/>
+
+      <CustomCamera show={isCameraShown} onClose={()=> setIsCameraShown(false)} />
+
     </ScrollView>
   );
 }
