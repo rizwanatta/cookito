@@ -24,6 +24,7 @@ function Signup() {
   const [password, setPassword] = useState();
   const [isPickerShown, setIsPickerShown] = useState(false);
   const [isCameraShown, setIsCameraShown] = useState(false);
+  const [imageFromPicker, setImageFromPicker] = useState('');
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -32,6 +33,11 @@ function Signup() {
       setShowPass(true);
     }
   };
+
+  const onImageCameFromGallery=(image)=>{
+         setImageFromPicker(image.uri)
+         setIsPickerShown(false)
+  }
 
   const onSignupPress = () => {
     console.log(userName, email, password);
@@ -59,7 +65,7 @@ function Signup() {
       <Header title={"Sign up"} />
       <TouchableOpacity onPress={onImagePressed}>
         <View style={styles.pickImgCircle}>
-          <Ionicons name={"md-image-sharp"} color={"white"} size={50} />
+            <Image source={{uri:imageFromPicker}} style={{width:100, height:100}}/>
         </View>
       </TouchableOpacity>
 
@@ -93,7 +99,9 @@ function Signup() {
         <BButton title={"Sign up"} onButtonPress={onSignupPress} />
       </View>
 
-      <MediaPicker show={isPickerShown} onClose={onImagePressed}  onCameraPressed={()=>{setIsCameraShown(!isCameraShown)}}/>
+      <MediaPicker show={isPickerShown} onClose={onImagePressed}
+                  onImagePickerSelected={(imageSelcted)=>{onImageCameFromGallery(imageSelcted)}}
+                  onCameraPressed={()=>{setIsCameraShown(!isCameraShown)}}/>
 
       <CustomCamera show={isCameraShown} onClose={()=> setIsCameraShown(false)} />
 

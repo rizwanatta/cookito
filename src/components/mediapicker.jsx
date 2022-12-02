@@ -5,12 +5,29 @@ import * as ImagePicker from 'expo-image-picker';
 
 import {BButton} from './BButton';
 
-function MediaPicker({show,onClose, onCameraPressed, onGalleryPressed}){
+function MediaPicker({show,onClose, onCameraPressed, onImagePickerSelected}){
 
   const pickImageFromGallery = ()=>{
      ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ImagePicker.MediaTypeOptions.All
-     }).then(respone=>{}).catch(error=>{})
+       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+       allowsEditing: true,
+       quality:1
+     }).then(response=>{
+      
+
+       // when users opens the picker and just comes back and does not select the image
+       if(response.canceled){
+         alert('not selected')
+       }else{
+          onImagePickerSelected(response.assets[0])
+       }
+
+
+
+     }).catch(error=>{
+
+        alert(error.message)
+     })
   }
 
   return (
