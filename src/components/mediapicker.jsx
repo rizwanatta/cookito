@@ -1,10 +1,17 @@
 import {View,  Text ,  StyleSheet, TouchableOpacity} from 'react-native';
 import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from 'expo-image-picker';
 
 import {BButton} from './BButton';
 
 function MediaPicker({show,onClose, onCameraPressed, onGalleryPressed}){
+
+  const pickImageFromGallery = ()=>{
+     ImagePicker.launchImageLibraryAsync({
+       mediaTypes: ImagePicker.MediaTypeOptions.All
+     }).then(respone=>{}).catch(error=>{})
+  }
 
   return (
     <View>
@@ -23,7 +30,7 @@ function MediaPicker({show,onClose, onCameraPressed, onGalleryPressed}){
            <Ionicons name={'camera-sharp'} size={50} color={'white'}/>
         </TouchableOpacity > 
 
-          <TouchableOpacity style={styles.circleView}> 
+          <TouchableOpacity style={styles.circleView} onPress={pickImageFromGallery}> 
            <Ionicons name={'images-sharp'} size={50} color={'white'}/>
           </TouchableOpacity> 
          </View>
