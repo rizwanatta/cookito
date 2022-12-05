@@ -15,6 +15,7 @@ import { colors, modifiers } from "../../utils/theme";
 import { firebase } from "../../services/firebaseConfig";
 import { MediaPicker } from "../../components/mediapicker";
 import { CustomCamera } from "../../components/customCamera";
+import { uploadImage } from "../../services/uploadImage";
 
 function Signup() {
   const [showPass, setShowPass] = useState(false);
@@ -41,11 +42,15 @@ function Signup() {
 
   const onSignupPress = () => {
     console.log(userName, email, password);
-    firebase.firestore().collection("users").doc("id0002").set({
-      user_name: userName,
-      user_email: email,
-      user_password: password,
-    });
+    // firebase.firestore().collection("users").doc("id0003").set({
+    //   user_name: userName,
+    //   user_email: email,
+    //   user_password: password,
+    // });
+    //
+    
+    uploadImage(imageFromCamera || imageFromPicker)
+
   };
 
   const onImagePressed = () => {
