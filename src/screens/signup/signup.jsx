@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 import { BButton } from "../../components/BButton";
 import { Header } from "../../components/header";
@@ -25,6 +24,7 @@ function Signup() {
   const [isPickerShown, setIsPickerShown] = useState(false);
   const [isCameraShown, setIsCameraShown] = useState(false);
   const [imageFromPicker, setImageFromPicker] = useState('');
+  const [imageFromCamera, setImageFromCamera] = useState('');
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -65,7 +65,10 @@ function Signup() {
       <Header title={"Sign up"} />
       <TouchableOpacity onPress={onImagePressed}>
         <View style={styles.pickImgCircle}>
-            <Image source={{uri:imageFromPicker}} style={{width:100, height:100}}/>
+            <Image source={{uri:imageFromPicker || imageFromCamera }}
+            style={{width:100, height:100, borderRadius:50}}
+           resizeMode={'contain'}
+         />
         </View>
       </TouchableOpacity>
 
@@ -103,7 +106,18 @@ function Signup() {
                   onImagePickerSelected={(imageSelcted)=>{onImageCameFromGallery(imageSelcted)}}
                   onCameraPressed={()=>{setIsCameraShown(!isCameraShown)}}/>
 
-      <CustomCamera show={isCameraShown} onClose={()=> setIsCameraShown(false)} />
+      <CustomCamera
+    show={isCameraShown}
+    onClose={()=> setIsCameraShown(false)} 
+    onPictureTaken={(response)=>{
+      setIsCameraShown(false)
+      setIsPickerShown(false)
+      // if image came it will add the uri in our state
+      setImageFromCamera(response.uri)
+    }}
+
+
+    />
 
     </ScrollView>
   );
