@@ -1,43 +1,24 @@
-import {firebase} from './firebaseConfig';
+import { firebase } from "./firebaseConfig";
 
-async function uploadImage(imgUri){
-   // fir st conver the image to blob 
-  // a blo b as middle ware for your image to be uploaded
-  try {
-
-   const imgBlob = await makeBlob(imgUri);
-  //
-  //
-  // // storage ref to our users folder
-   const userStorageRef = firebase.storage().ref('users/')
-  //   
-   await userStorageRef.child('dummyImage_1')
-    .put(imgBlob)
-  //   .then(response=>{
-  //     alert(resposne)
-  //  }).catch(error=>{
-  //    alert(error)
-  //  })
-
-  } catch (error){
-     console.log(error)
-  }
-   
+function uploadImage(imgUri) {
+  makeBlob(imgUri)
+    .then((imageBlob) => {
+      const userStorageRef = firebase.storage().ref("users/");
+      userStorageRef
+        .child("dummyImage_dember6")
+        .put(imageBlob)
+        .then((uploadResponse) => {})
+        .catch((uploadError) => {});
+    })
+    .catch((blobError) => {});
 }
 
-
-
-
-
-const makeBlob  = async (img)=>{
-
+const makeBlob = async (img) => {
   const blobInMaking = await fetch(img);
 
-   const theBlob = await blobInMaking.blob();
+  const theBlob = await blobInMaking.blob();
 
-  return theBlob
+  return theBlob;
+};
 
-}
-
-
-export {uploadImage}
+export { uploadImage };
