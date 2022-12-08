@@ -19,13 +19,13 @@ import { firebase } from "../../services/firebaseConfig";
 import { MediaPicker } from "../../components/mediapicker";
 import { CustomCamera } from "../../components/customCamera";
 import { makeBlob } from "../../services/uploadImage";
-import { getARandomImageName } from "../../utils/help";
+import { getARandomImageName, showToast } from "../../utils/help";
 
 function Signup() {
   const [showPass, setShowPass] = useState(false);
-  const [userName, setUserName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPickerShown, setIsPickerShown] = useState(false);
   const [isCameraShown, setIsCameraShown] = useState(false);
   const [imageFromPicker, setImageFromPicker] = useState("");
@@ -47,14 +47,26 @@ function Signup() {
 
   const onSignupPress = () => {
     console.log(userName, email, password);
+    //create a user account in firebase auth then upload image
+    setShowLoading(true);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((authResponse) => {
+        uploadImage(imageFromCamera || imageFromPicker);
+        showToast("success", "registered successfully proceed to login", "top");
+      })
+      .catch((authError) => {
+        setShowLoading(false);
+        showToast("error", authError.message, "top");
+      });
+
     // firebase.firestore().collection("users").doc("id0003").set({
     //   user_name: userName,
     //   user_email: email,
     //   user_password: password,
     // });
     //
-    setShowLoading(true);
-    uploadImage(imageFromCamera || imageFromPicker);
   };
 
   const onImagePressed = () => {
