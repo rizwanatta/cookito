@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Toast from "react-native-toast-message";
+
 import {
   View,
   ScrollView,
@@ -16,7 +18,8 @@ import { colors, modifiers } from "../../utils/theme";
 import { firebase } from "../../services/firebaseConfig";
 import { MediaPicker } from "../../components/mediapicker";
 import { CustomCamera } from "../../components/customCamera";
-import { uploadImage } from "../../services/uploadImage";
+import { makeBlob } from "../../services/uploadImage";
+import { getARandomImageName } from "../../utils/help";
 
 function Signup() {
   const [showPass, setShowPass] = useState(false);
@@ -27,6 +30,7 @@ function Signup() {
   const [isCameraShown, setIsCameraShown] = useState(false);
   const [imageFromPicker, setImageFromPicker] = useState("");
   const [imageFromCamera, setImageFromCamera] = useState("");
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -49,7 +53,7 @@ function Signup() {
     //   user_password: password,
     // });
     //
-
+    setShowLoading(true);
     uploadImage(imageFromCamera || imageFromPicker);
   };
 
@@ -62,6 +66,33 @@ function Signup() {
     // lin51  does the same sa all from 45 to 49
     // setIsPickerShown(!isPickerShown)
   };
+
+  function uploadImage(imgUri) {
+    makeBlob(imgUri)
+      .then((imageBlob) => {
+        const userStorageRef = firebase.storage().ref("users/");
+        const imageName = getARandomImageName();
+        userStorageRef
+          .child(imageName)
+          .put(imageBlob)
+          .then((uploadResponse) => {
+            setShowLoading(false);
+
+            Toast.show({
+              type: "success",
+              text1: "Hello",
+              text2: "This is some something 👋",
+              position: "bottom",
+            });
+          })
+          .catch((uploadError) => {
+            setShowLoading(false);
+          });
+      })
+      .catch((blobError) => {
+        setShowLoading(false);
+      });
+  }
 
   return (
     <ScrollView
@@ -129,7 +160,8 @@ function Signup() {
           setImageFromCamera(response.uri);
         }}
       />
-      <Loading />
+      {showLoading && <Loading />}
+      <Toast />
     </ScrollView>
   );
 }

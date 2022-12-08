@@ -23,4 +23,4 @@ const makeBlob = async (img) => {
   return theBlob;
 };
 
-export { uploadImage };
+export { uploadImage, makeBlob };
