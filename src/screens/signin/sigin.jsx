@@ -5,10 +5,12 @@ import { BButton } from "../../components/BButton";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { TextButton } from "../../components/textButton";
+import { Loading } from "../../components/loading";
 import { colors, modifiers } from "../../utils/theme";
 
 function Signin({ navigation }) {
   const [showPass, setShowPass] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -53,6 +55,7 @@ function Signin({ navigation }) {
           />
         </View>
       </View>
+      {showLoading === true && <Loading />}
     </ScrollView>
   );
 }

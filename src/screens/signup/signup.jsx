@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import { BButton } from "../../components/BButton";
+import { Loading } from "../../components/loading";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { TextButton } from "../../components/textButton";
@@ -24,8 +25,8 @@ function Signup() {
   const [password, setPassword] = useState();
   const [isPickerShown, setIsPickerShown] = useState(false);
   const [isCameraShown, setIsCameraShown] = useState(false);
-  const [imageFromPicker, setImageFromPicker] = useState('');
-  const [imageFromCamera, setImageFromCamera] = useState('');
+  const [imageFromPicker, setImageFromPicker] = useState("");
+  const [imageFromCamera, setImageFromCamera] = useState("");
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -35,10 +36,10 @@ function Signup() {
     }
   };
 
-  const onImageCameFromGallery=(image)=>{
-         setImageFromPicker(image.uri)
-         setIsPickerShown(false)
-  }
+  const onImageCameFromGallery = (image) => {
+    setImageFromPicker(image.uri);
+    setIsPickerShown(false);
+  };
 
   const onSignupPress = () => {
     console.log(userName, email, password);
@@ -48,20 +49,19 @@ function Signup() {
     //   user_password: password,
     // });
     //
-    
-    uploadImage(imageFromCamera || imageFromPicker)
 
+    uploadImage(imageFromCamera || imageFromPicker);
   };
 
   const onImagePressed = () => {
-    if(isPickerShown === true){
-      setIsPickerShown(false)
-    }else if(isPickerShown === false ){
-      setIsPickerShown(true)
+    if (isPickerShown === true) {
+      setIsPickerShown(false);
+    } else if (isPickerShown === false) {
+      setIsPickerShown(true);
     }
-   // lin51  does the same sa all from 45 to 49
-   // setIsPickerShown(!isPickerShown)
-  }
+    // lin51  does the same sa all from 45 to 49
+    // setIsPickerShown(!isPickerShown)
+  };
 
   return (
     <ScrollView
@@ -70,10 +70,11 @@ function Signup() {
       <Header title={"Sign up"} />
       <TouchableOpacity onPress={onImagePressed}>
         <View style={styles.pickImgCircle}>
-            <Image source={{uri:imageFromPicker || imageFromCamera }}
-            style={{width:100, height:100, borderRadius:50}}
-           resizeMode={'contain'}
-         />
+          <Image
+            source={{ uri: imageFromPicker || imageFromCamera }}
+            style={{ width: 100, height: 100, borderRadius: 50 }}
+            resizeMode={"contain"}
+          />
         </View>
       </TouchableOpacity>
 
@@ -107,23 +108,28 @@ function Signup() {
         <BButton title={"Sign up"} onButtonPress={onSignupPress} />
       </View>
 
-      <MediaPicker show={isPickerShown} onClose={onImagePressed}
-                  onImagePickerSelected={(imageSelcted)=>{onImageCameFromGallery(imageSelcted)}}
-                  onCameraPressed={()=>{setIsCameraShown(!isCameraShown)}}/>
+      <MediaPicker
+        show={isPickerShown}
+        onClose={onImagePressed}
+        onImagePickerSelected={(imageSelcted) => {
+          onImageCameFromGallery(imageSelcted);
+        }}
+        onCameraPressed={() => {
+          setIsCameraShown(!isCameraShown);
+        }}
+      />
 
       <CustomCamera
-    show={isCameraShown}
-    onClose={()=> setIsCameraShown(false)} 
-    onPictureTaken={(response)=>{
-      setIsCameraShown(false)
-      setIsPickerShown(false)
-      // if image came it will add the uri in our state
-      setImageFromCamera(response.uri)
-    }}
-
-
-    />
-
+        show={isCameraShown}
+        onClose={() => setIsCameraShown(false)}
+        onPictureTaken={(response) => {
+          setIsCameraShown(false);
+          setIsPickerShown(false);
+          // if image came it will add the uri in our state
+          setImageFromCamera(response.uri);
+        }}
+      />
+      <Loading />
     </ScrollView>
   );
 }

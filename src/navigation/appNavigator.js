@@ -14,9 +14,9 @@ function MainNav() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="WebPage" component={WebPage} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="WebPage" component={WebPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
