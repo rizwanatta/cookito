@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Text,
 } from "react-native";
 
 import { BButton } from "../../components/BButton";
@@ -20,10 +21,13 @@ import { MediaPicker } from "../../components/mediapicker";
 import { CustomCamera } from "../../components/customCamera";
 import { makeBlob } from "../../services/uploadImage";
 import { getARandomImageName, showToast } from "../../utils/help";
+import { GenderSelector } from "../../components/genderSelector";
 
 function Signup() {
   const [showPass, setShowPass] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPickerShown, setIsPickerShown] = useState(false);
@@ -31,6 +35,8 @@ function Signup() {
   const [imageFromPicker, setImageFromPicker] = useState("");
   const [imageFromCamera, setImageFromCamera] = useState("");
   const [showLoading, setShowLoading] = useState(false);
+  const [showGender, setShowGender] = useState(false);
+  const [selectedGender, setSelectedGender] = useState();
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -123,9 +129,16 @@ function Signup() {
 
       <View style={styles.formCon}>
         <Input
-          placeholder={"User Name"}
+          placeholder={"First Name"}
           showIcon={true}
-          onChange={setUserName}
+          onChange={setFirstName}
+          iconName={"person-outline"}
+        />
+
+        <Input
+          placeholder={"Last Name"}
+          showIcon={true}
+          onChange={setLastName}
           iconName={"person-outline"}
         />
 
@@ -144,6 +157,14 @@ function Signup() {
           iconName={showPass === false ? "eye-outline" : "eye-off-outline"}
           onIconPress={handleShowPass}
         />
+
+        <TouchableOpacity
+          style={{ marginHorizontal: 10 }}
+          onPress={() => setShowGender(true)}
+        >
+          <Text>Select Gender</Text>
+          <Text>{selectedGender?.label}</Text>
+        </TouchableOpacity>
 
         <View style={styles.textBtnCon}>
           <TextButton title={"Already have an account?"} />
@@ -174,6 +195,13 @@ function Signup() {
       />
       {showLoading && <Loading />}
       <Toast />
+      <GenderSelector
+        show={showGender}
+        onGenderSelected={(gender) => {
+          setSelectedGender(gender);
+          setShowGender(false);
+        }}
+      />
     </ScrollView>
   );
 }
