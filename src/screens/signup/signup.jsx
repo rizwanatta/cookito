@@ -52,27 +52,41 @@ function Signup() {
   };
 
   const onSignupPress = () => {
-    console.log(userName, email, password);
     //create a user account in firebase auth then upload image
     setShowLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((authResponse) => {
-        uploadImage(imageFromCamera || imageFromPicker);
-        showToast("success", "registered successfully proceed to login", "top");
+        if (authResponse.user.uid) {
+          const uid = authResponse.user.uid;
+          saveUserDataToFireStore(uid);
+        }
       })
       .catch((authError) => {
         setShowLoading(false);
         showToast("error", authError.message, "top");
       });
+  };
 
-    // firebase.firestore().collection("users").doc("id0003").set({
-    //   user_name: userName,
-    //   user_email: email,
-    //   user_password: password,
-    // });
-    //
+  const saveUserDataToFireStore = (uid) => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(uid)
+      .set({
+        firstName,
+        lastName,
+        gender: selectedGender,
+      })
+      .then((response) => {
+        showToast("success", "registered successfully proceed to login", "top");
+        setShowLoading(false);
+      })
+      .catch((error) => {
+        showToast("error", error.message, "top");
+        setShowLoading(false);
+      });
   };
 
   const onImagePressed = () => {
