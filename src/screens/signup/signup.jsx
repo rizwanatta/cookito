@@ -23,11 +23,11 @@ import { makeBlob } from "../../services/uploadImage";
 import { getARandomImageName, showToast } from "../../utils/help";
 import { GenderSelector } from "../../components/genderSelector";
 
-function Signup() {
+function Signup({navigation}) {
+
   const [showPass, setShowPass] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPickerShown, setIsPickerShown] = useState(false);
@@ -60,7 +60,8 @@ function Signup() {
       .then((authResponse) => {
         if (authResponse.user.uid) {
           const uid = authResponse.user.uid;
-          saveUserDataToFireStore(uid);
+         uploadImage(uid)
+          //UPLOAD AN IMAGE PROCESS 
         }
       })
       .catch((authError) => {
@@ -69,7 +70,7 @@ function Signup() {
       });
   };
 
-  const saveUserDataToFireStore = (uid) => {
+  const saveUserDataToFireStore = (uid, imageUrlOnServer) => {
     firebase
       .firestore()
       .collection("users")
@@ -78,10 +79,12 @@ function Signup() {
         firstName,
         lastName,
         gender: selectedGender,
+        profile_url: imageUrlOnServer
       })
       .then((response) => {
-        showToast("success", "registered successfully proceed to login", "top");
         setShowLoading(false);
+        navigation.goBack();
+        showToast("success", "registered successfully proceed to login", "top");
       })
       .catch((error) => {
         showToast("error", error.message, "top");
@@ -99,8 +102,10 @@ function Signup() {
     // setIsPickerShown(!isPickerShown)
   };
 
-  function uploadImage(imgUri) {
-    makeBlob(imgUri)
+  function uploadImage(uid) {
+    const imageUri = imageFromCamera || imageFromPicker
+
+    makeBlob(imageUri)
       .then((imageBlob) => {
         const userStorageRef = firebase.storage().ref("users/");
         const imageName = getARandomImageName();
@@ -108,16 +113,26 @@ function Signup() {
           .child(imageName)
           .put(imageBlob)
           .then((uploadResponse) => {
-            setShowLoading(false);
 
-            Toast.show({
-              type: "success",
-              text1: "Hello",
-              text2: "This is some something 👋",
-              position: "bottom",
-            });
+            // will fetch uploaded image url for us
+            firebase.storage().ref("users/"+imageName).getDownloadURL().then(downloadRes=>{
+               
+              const imageUrlOnServer = downloadRes;
+              
+              // passing the UID and url to add data to firestore function
+               saveUserDataToFireStore(uid,imageUrlOnServer)
+
+            }).catch(downlaodErr=>{
+              showToast('error',downlaodErr.message)
+              setShowLoading(false);
+            })
+
+            // get the url from response and then add it with the data to firebase with uid
+            
+
           })
           .catch((uploadError) => {
+            showToast('error',uploadError.message)
             setShowLoading(false);
           });
       })

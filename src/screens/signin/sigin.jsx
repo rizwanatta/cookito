@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
+import Toast from 'react-native-toast-message';
 
 import { BButton } from "../../components/BButton";
 import { Header } from "../../components/header";
@@ -56,6 +57,7 @@ function Signin({ navigation }) {
         </View>
       </View>
       {showLoading === true && <Loading />}
+    <Toast/>
     </ScrollView>
   );
 }
