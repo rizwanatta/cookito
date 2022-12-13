@@ -8,8 +8,13 @@ import { Input } from "../../components/input";
 import { TextButton } from "../../components/textButton";
 import { Loading } from "../../components/loading";
 import { colors, modifiers } from "../../utils/theme";
+import { firebase } from "../../services/firebaseConfig";
+import { showToast } from "../../utils/help";
 
 function Signin({ navigation }) {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
 
@@ -25,6 +30,25 @@ function Signin({ navigation }) {
     navigation.navigate("Signup");
   };
 
+
+  const onSignin = ()=>{
+    setShowLoading(true)
+
+    firebase.auth().signInWithEmailAndPassword(email,password).then(authResponse=>{
+
+       
+        setShowLoading(false);
+        showToast("success", 'you are the authentic useer CONGO', "top");
+        //  now we need a session of user and also take him to goToHome()
+
+    }).catch(authError=>{
+
+        setShowLoading(false);
+        showToast("error", authError.message, "top");
+
+    })
+  }
+
   return (
     <ScrollView
       contentContainerStyle={{ flex: 1, backgroundColor: colors.bgColor }}
@@ -35,12 +59,14 @@ function Signin({ navigation }) {
           placeholder={"Email"}
           showIcon={true}
           iconName={"mail-outline"}
+          onChange={setEmail}
         />
 
         <Input
           placeholder={"Password"}
           isSecure={!showPass}
           showIcon={true}
+          onChange={setPassword}
           iconName={showPass === false ? "eye-outline" : "eye-off-outline"}
           onIconPress={handleShowPass}
         />
@@ -48,7 +74,7 @@ function Signin({ navigation }) {
         <View style={styles.textBtnCon}>
           <TextButton title={"Forgot your password?"} />
         </View>
-        <BButton title={"Sign in"} />
+        <BButton title={"Sign in"} onButtonPress={onSignin} />
         <View style={styles.goToSignupCon}>
           <TextButton
             title={"Dont have an account yet signup"}
@@ -56,7 +82,7 @@ function Signin({ navigation }) {
           />
         </View>
       </View>
-      {showLoading === true && <Loading />}
+      {showLoading && <Loading />}
     <Toast/>
     </ScrollView>
   );
