@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showToast } from "../utils/help";
 
-
 /** if i were to do the same function in async await mode
  *
  */
@@ -15,40 +14,37 @@ async function storeUserSession(uid, sessionState) {
   }
 }
 
+function getUserId() {
+  var uid = "";
 
+  AsyncStorage.getItem("user_uid")
+    .then((response) => {
+      uid = response;
+      return uid
+    })
+    .catch((error) => {
+      showToast("error", error.message);
+    });
 
-
-
-
-async function getUserId() {
-  try {
-
-    const value = await AsyncStorage.getItem("user_uid");
-      if(value !== null){
-        return value
-      }
-
-  } catch (error) {
-    showToast("error", error.message);
-  }
+  return uid;
 }
 
-async function getUserLoggedInStatus() {
-  try {
+function getUserLoggedInStatus() {
+  var isLoggedIn = "";
 
-    const value = await AsyncStorage.getItem("user_is_logged_in");
-      if(value !== null){
-        return value
-      }
+  AsyncStorage.getItem("user_is_logged_in")
+    .then((response) => {
+      isLoggedIn = response;
+      return isLoggedIn
+    })
+    .catch((error) => {
+      showToast("error", error.message);
+    });
 
-  } catch (error) {
-    showToast("error", error.message);
-  }
+  return isLoggedIn;
 }
 
-export {storeUserSession, getUserLoggedInStatus,getUserId}
-
-
+export { storeUserSession, getUserLoggedInStatus, getUserId };
 
 // THEN CATCH REPLACEMEBT OF ABOVE FUNC
 

@@ -21,12 +21,10 @@ function Signin({ navigation }) {
 
 
         
-      (async ()=> {
-          const loggedIn =   await getUserLoggedInStatus();
-          const UID =   await getUserId();
+          const loggedIn =  getUserLoggedInStatus();
+          const UID =   getUserId();
          console.log("my_uid",UID)
          console.log("user_logged",loggedIn)
-      })()
 
 
 
