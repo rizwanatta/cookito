@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
-import Toast from 'react-native-toast-message';
+import { View, ScrollView, StyleSheet , Text} from "react-native";
+import Toast from "react-native-toast-message";
 
 import { BButton } from "../../components/BButton";
 import { Header } from "../../components/header";
@@ -10,13 +10,25 @@ import { Loading } from "../../components/loading";
 import { colors, modifiers } from "../../utils/theme";
 import { firebase } from "../../services/firebaseConfig";
 import { showToast } from "../../utils/help";
+import { getUserId, storeUserSession, getUserLoggedInStatus } from "../../services/storageService";
 
 function Signin({ navigation }) {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+
+
+
+        
+      (async ()=> {
+          const loggedIn =   await getUserLoggedInStatus();
+          const UID =   await getUserId();
+         console.log("my_uid",UID)
+         console.log("user_logged",loggedIn)
+      })()
+
+
 
   const handleShowPass = () => {
     if (showPass === true) {
@@ -30,25 +42,28 @@ function Signin({ navigation }) {
     navigation.navigate("Signup");
   };
 
+  const onSignin = () => {
+    setShowLoading(true);
 
-  const onSignin = ()=>{
-    setShowLoading(true)
-
-    firebase.auth().signInWithEmailAndPassword(email,password).then(authResponse=>{
-
-       
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((authResponse) => {
         setShowLoading(false);
-         navigation.navigate('Main')
-        showToast("success", 'you are the authentic useer CONGO', "top");
+        
+        const userUid = authResponse.user.uid;
+
+        storeUserSession(userUid,"true")
+
+        navigation.navigate("Main");
+        showToast("success", "you are the authentic useer CONGO", "top");
         //  now we need a session of user and also take him to goToHome()
-
-    }).catch(authError=>{
-
+      })
+      .catch((authError) => {
         setShowLoading(false);
         showToast("error", authError.message, "top");
-
-    })
-  }
+      });
+  };
 
   return (
     <ScrollView
@@ -84,7 +99,9 @@ function Signin({ navigation }) {
         </View>
       </View>
       {showLoading && <Loading />}
-    <Toast/>
+      <Toast />
+
+    <Text>hello</Text>
     </ScrollView>
   );
 }
