@@ -9,7 +9,7 @@ function Splash({navigation}){
 
   const loadAfterTime = ()=>{
     showToast('success', 'WELCOME')
-     navigation.navigate('Signin')
+     navigation.replace('Signin')
   }
 
   /***

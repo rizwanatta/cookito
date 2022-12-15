@@ -53,7 +53,7 @@ function Signin({ navigation }) {
 
         storeUserSession(userUid,"true")
 
-        navigation.navigate("Main");
+        navigation.replace("Home");
         showToast("success", "you are the authentic useer CONGO", "top");
         //  now we need a session of user and also take him to goToHome()
       })
