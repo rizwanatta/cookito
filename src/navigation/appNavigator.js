@@ -4,6 +4,7 @@ import { Signin } from "../screens/signin/sigin";
 import { Signup } from "../screens/signup/signup";
 import { Main } from "../screens/main/main";
 import { WebPage } from "../screens/webpage/webpage";
+import { Splash } from "../screens/splash/splash";
 
 function MainNav() {
   const Stack = createNativeStackNavigator();
@@ -15,6 +16,7 @@ function MainNav() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Main" component={Main} />
