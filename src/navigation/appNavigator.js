@@ -21,7 +21,13 @@ function MainNav() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => (
           <Ionicons
-            name={route.name === "Main" ? "home" : "person"}
+            name={
+              route.name === "Main"
+                ? "home"
+                : route.name === "Settings"
+                ? "settings"
+                : "person"
+            }
             color={focused ? "red" : "grey"}
             size={iconSize}
           />
@@ -30,6 +36,7 @@ function MainNav() {
     >
       <Tab.Screen name={"Main"} component={Main} />
       <Tab.Screen name={"WebPage"} component={WebPage} />
+      <Tab.Screen name={"Settings"} component={WebPage} />
     </Tab.Navigator>
   );
 
@@ -40,10 +47,10 @@ function MainNav() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );

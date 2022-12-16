@@ -1,15 +1,23 @@
+import {useState} from 'react';
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import Toast from "react-native-toast-message";
+import { FloatingAction } from "react-native-floating-action";
 
 import Swiper from "react-native-swiper";
+import { colors } from "../../utils/theme";
+import {AddRecipy} from "../../components/addRecipy"
 
 
-const sliderHeight = 300;
-const slideHight= 300;
+const sliderHeight = 250;
+const slideHight= 250;
 
 
 
 function Main() {
+   
+  const [showAddRecipy, setShowAddRecipy] = useState(false);
+
+
   const famousRecipies = [
     {
       title: "Brockliee sandwitch",
@@ -44,6 +52,12 @@ function Main() {
     </View>
 
       <Toast />
+     <FloatingAction
+      color={colors.primary}
+      onPressMain={()=>{setShowAddRecipy(true)}}
+     />
+
+    <AddRecipy show={showAddRecipy} onClose={()=>setShowAddRecipy(false)}/>
     </View>
   );
 }

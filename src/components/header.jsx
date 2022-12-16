@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { modifiers } from "../utils/theme";
 
-function Header({ title }) {
+function Header({ title, onIconPress }) {
   return (
     <View style={styles.headerCon}>
+    <TouchableOpacity onPress={onIconPress}>
       <Ionicons name={"chevron-back"} size={24} style={styles.backIcon} />
+    </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
     </View>
   );

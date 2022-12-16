@@ -9,6 +9,7 @@ function Input({
   showIcon,
   iconName,
   onIconPress,
+  beMultiline // if this will be true input willtake mroe than one line
 }) {
   return (
     <View style={styles.inputCon}>
@@ -17,6 +18,7 @@ function Input({
         placeholder={placeholder}
         onChangeText={onChange}
         secureTextEntry={isSecure}
+        multiline={beMultiline}
       />
       {showIcon === true ? (
         <Ionicons
