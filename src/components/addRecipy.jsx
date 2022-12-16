@@ -19,7 +19,7 @@ import { firebase } from "../services/firebaseConfig";
 import { MediaPicker } from "./mediapicker";
 import { CustomCamera } from "./customCamera";
 import { makeBlob } from "../services/uploadImage";
-import { getARandomImageName, showToast } from "../utils/help";
+import { getARandomImageName, getARandomRecipeName, showToast } from "../utils/help";
 
 function AddRecipy({onClose,show}){
 
@@ -32,6 +32,12 @@ function AddRecipy({onClose,show}){
   const [imageFromCamera, setImageFromCamera] = useState("");
   const [showLoading, setShowLoading] = useState(false);
 
+
+
+  const onSubmit = ()=>{
+    setShowLoading(true)
+    uploadImage()
+  }
 
   const onImageCameFromGallery = (image) => {
     setImageFromPicker(image.uri);
@@ -46,7 +52,7 @@ function AddRecipy({onClose,show}){
     }
   };
 
-  function uploadImage(uid) {
+  function uploadImage() {
     const imageUri = imageFromCamera || imageFromPicker
 
     makeBlob(imageUri)
@@ -63,8 +69,8 @@ function AddRecipy({onClose,show}){
                
               const imageUrlOnServer = downloadRes;
               
-              // passing the UID and url to add data to firestore function
-               saveUserDataToFireStore(uid,imageUrlOnServer)
+              // passing the url to add data to firestore function
+               saveRecipeData(imageUrlOnServer)
 
             }).catch(downlaodErr=>{
               showToast('error',downlaodErr.message)
@@ -83,6 +89,33 @@ function AddRecipy({onClose,show}){
       .catch((blobError) => {
         setShowLoading(false);
       });
+  }
+
+
+  const saveRecipeData = (imageUrl)=>{
+
+    const randomName = getARandomRecipeName()
+       
+    firebase
+      .firestore()
+      .collection("recipies")
+      .doc(randomName)
+      .set({
+        recipyImageUrl: imageUrl,
+        title,
+        description,
+        ingrediants
+      })
+      .then((response) => {
+        setShowLoading(false);
+        showToast("success", "your recipy is uploaded", "top");
+        onClose()
+      })
+      .catch((error) => {
+        showToast("error", error.message, "top");
+        setShowLoading(false);
+      });
+
   }
 
   return (
@@ -130,7 +163,7 @@ function AddRecipy({onClose,show}){
           beMultiline={true}
         />
 
-        <BButton title={"Submit"}  />
+        <BButton title={"Submit"}   onButtonPress={onSubmit}/>
       </View>
 
       <MediaPicker
@@ -155,7 +188,6 @@ function AddRecipy({onClose,show}){
         }}
       />
       {showLoading && <Loading />}
-      <Toast />
     </ScrollView>
     </Modal>
   );
