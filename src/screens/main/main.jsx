@@ -25,8 +25,12 @@ function Main() {
 
   // when this component/screen will load infront of user
   useEffect(() => {
-    setShowLoading(true);
+      fetchRecipesFromDB()
+  }, []);
 
+
+  const fetchRecipesFromDB = ()=>{
+    setShowLoading(true);
     firebase
       .firestore()
       .collection("recipies")
@@ -39,7 +43,7 @@ function Main() {
         console.log({ error });
         setShowLoading(false);
       });
-  }, []);
+  }
 
   const __renderItem = ({ item }) => {
     const recipy = item.data();
@@ -104,6 +108,8 @@ function Main() {
         horizontal={true}
         renderItem={__renderItem}
         ListEmptyComponent={<Text>no recipies found </Text>}
+        refreshing={showLoading}
+        onRefresh={()=>fetchRecipesFromDB()}
       />
 
       <Toast />
