@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import Modal from "react-native-modal";
-import Toast from "react-native-toast-message";
 
 import {
   View,

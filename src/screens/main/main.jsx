@@ -1,11 +1,13 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import Toast from "react-native-toast-message";
 import { FloatingAction } from "react-native-floating-action";
 
 import Swiper from "react-native-swiper";
 import { colors } from "../../utils/theme";
-import {AddRecipy} from "../../components/addRecipy"
+import {AddRecipy} from "../../components/addRecipy";
+import {Loading} from '../../components/loading'
+import { firebase } from "../../services/firebaseConfig";
 
 
 const sliderHeight = 250;
@@ -16,6 +18,30 @@ const slideHight= 250;
 function Main() {
    
   const [showAddRecipy, setShowAddRecipy] = useState(false);
+  const [showLoading, setShowLoading] = useState(false)
+  
+// when this component/screen will load infront of user
+  useEffect(() => {
+    setShowLoading(true)
+
+    firebase
+      .firestore()
+      .collection('recipies')
+      .get().then(response=>{
+
+
+          response.docs.forEach(doc=>{
+            console.log('docs',doc.data())
+          })
+
+         setShowLoading(false)
+
+      }).catch(error=>{
+         console.log({error})
+         setShowLoading(false)
+      })   
+    
+  }, [])
 
 
   const famousRecipies = [
@@ -58,6 +84,9 @@ function Main() {
      />
 
     <AddRecipy show={showAddRecipy} onClose={()=>setShowAddRecipy(false)}/>
+
+    {showLoading && <Loading/>}
+
     </View>
   );
 }
