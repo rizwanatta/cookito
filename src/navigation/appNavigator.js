@@ -9,6 +9,7 @@ import { Main } from "../screens/main/main";
 import { WebPage } from "../screens/webpage/webpage";
 import { Splash } from "../screens/splash/splash";
 import { Settings } from "../screens/settings/settings";
+import { Recipies } from "../screens/recipes/recipies";
 
 function MainNav() {
   const Stack = createNativeStackNavigator();
@@ -52,6 +53,7 @@ function MainNav() {
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Recipies" component={Recipies} />
       </Stack.Navigator>
     </NavigationContainer>
   );

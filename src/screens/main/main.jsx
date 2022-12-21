@@ -18,11 +18,12 @@ import { AddRecipy } from "../../components/addRecipy";
 import { Loading } from "../../components/loading";
 import { firebase } from "../../services/firebaseConfig";
 import { showToast } from "../../utils/help";
+import { BButton } from "../../components/BButton";
 
 const sliderHeight = 250;
 const slideHight = 250;
 
-function Main() {
+function Main({navigation}) {
   const [showAddRecipy, setShowAddRecipy] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [recipieData, setRecipieData] = useState([]);
@@ -138,6 +139,9 @@ function Main() {
         refreshing={showLoading}
         onRefresh={()=>fetchRecipesFromDB()}
       />
+    <BButton title={'go to recipies lists'} onButtonPress={
+     ()=> navigation.navigate('Recipies')
+    }/>
 
 
     <Text style={{fontSize:50}}>
