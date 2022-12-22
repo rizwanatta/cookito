@@ -15,36 +15,23 @@ async function storeUserSession(uid, sessionState) {
 }
 
 function getUserId() {
-  var uid = "";
-
-  AsyncStorage.getItem("user_uid")
-    .then((response) => {
-      uid = response;
-      return uid
-    })
-    .catch((error) => {
-      showToast("error", error.message);
-    });
-
-  return uid;
+  return AsyncStorage.getItem("user_uid");
 }
 
 function getUserLoggedInStatus() {
-  var isLoggedIn = "";
-
-  AsyncStorage.getItem("user_is_logged_in")
-    .then((response) => {
-      isLoggedIn = response;
-      return isLoggedIn
-    })
-    .catch((error) => {
-      showToast("error", error.message);
-    });
-
-  return isLoggedIn;
+  return AsyncStorage.getItem("user_is_logged_in");
 }
 
-export { storeUserSession, getUserLoggedInStatus, getUserId };
+async function clearUserSession() {
+  try {
+    await AsyncStorage.setItem("user_uid", "");
+    await AsyncStorage.setItem("user_is_logged_in", "false");
+  } catch (error) {
+    showToast("error", error.message);
+  }
+}
+
+export { storeUserSession, getUserLoggedInStatus, getUserId, clearUserSession };
 
 // THEN CATCH REPLACEMEBT OF ABOVE FUNC
 
