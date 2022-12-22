@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { FloatingAction } from "react-native-floating-action";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 import Swiper from "react-native-swiper";
 import { colors } from "../../utils/theme";
@@ -19,22 +19,22 @@ import { Loading } from "../../components/loading";
 import { firebase } from "../../services/firebaseConfig";
 import { showToast } from "../../utils/help";
 import { BButton } from "../../components/BButton";
+import { Counter } from "../../components/counter";
 
 const sliderHeight = 250;
 const slideHight = 250;
 
-function Main({navigation}) {
+function Main({ navigation }) {
   const [showAddRecipy, setShowAddRecipy] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [recipieData, setRecipieData] = useState([]);
 
   // when this component/screen will load infront of user
   useEffect(() => {
-      fetchRecipesFromDB()
+    fetchRecipesFromDB();
   }, []);
 
-
-  const fetchRecipesFromDB = ()=>{
+  const fetchRecipesFromDB = () => {
     setShowLoading(true);
     firebase
       .firestore()
@@ -48,40 +48,34 @@ function Main({navigation}) {
         console.log({ error });
         setShowLoading(false);
       });
-  }
+  };
 
-
-  const onRecipyLongPress = (recipyId)=>{
-
-
-       firebase
+  const onRecipyLongPress = (recipyId) => {
+    firebase
       .firestore()
-      .collection('recipies')
+      .collection("recipies")
       .doc(recipyId)
       .delete()
-      .then(response=>{
-        showToast('success', 'your recipy got deleted')
+      .then((response) => {
+        showToast("success", "your recipy got deleted");
       })
-       .catch(error=>{
-        showToast('error', error.message)
-      })
-
-  }
+      .catch((error) => {
+        showToast("error", error.message);
+      });
+  };
 
   const __renderItem = ({ item }) => {
     const recipy = item.data();
-    const recipyId = item.id
+    const recipyId = item.id;
 
     return (
-      <TouchableOpacity 
-      onLongPress={()=>onRecipyLongPress(recipyId)}
-      >
-       <ImageBackground
-        style={{ width: 100, height: 100, margin: 5 }}
-        source={{ uri: recipy.recipyImageUrl }}
-       >
-        <Text style={{ color: "white" }}>{recipy.title}</Text>
-       </ImageBackground>
+      <TouchableOpacity onLongPress={() => onRecipyLongPress(recipyId)}>
+        <ImageBackground
+          style={{ width: 100, height: 100, margin: 5 }}
+          source={{ uri: recipy.recipyImageUrl }}
+        >
+          <Text style={{ color: "white" }}>{recipy.title}</Text>
+        </ImageBackground>
       </TouchableOpacity>
     );
   };
@@ -137,16 +131,24 @@ function Main({navigation}) {
         renderItem={__renderItem}
         ListEmptyComponent={<Text>no recipies found </Text>}
         refreshing={showLoading}
-        onRefresh={()=>fetchRecipesFromDB()}
+        onRefresh={() => fetchRecipesFromDB()}
       />
-    <BButton title={'go to recipies lists'} onButtonPress={
-     ()=> navigation.navigate('Recipies')
-    }/>
 
+      <View
+        style={{ backgroundColor: "red", height: 100, width: "100%" }}
+      >
+        <Counter/>
 
-    <Text style={{fontSize:50}}>
-   {dayjs().diff(dayjs('1972-10-08'), 'year')}
-    </Text>
+    </View>
+
+      <BButton
+        title={"go to recipies lists"}
+        onButtonPress={() => navigation.navigate("Recipies")}
+      />
+
+      <Text style={{ fontSize: 50 }}>
+        {dayjs().diff(dayjs("1972-10-08"), "year")}
+      </Text>
 
       <Toast />
       <FloatingAction
