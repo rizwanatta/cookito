@@ -49,11 +49,11 @@ function MainNav() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Recipies" component={Recipies} />
+        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );

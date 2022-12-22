@@ -1,42 +1,39 @@
-import {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Loading} from '../../components/loading'
-import { showToast } from '../../utils/help';
+import { useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import { Loading } from "../../components/loading";
+import { showToast } from "../../utils/help";
+import { getUserLoggedInStatus } from "../../services/storageService";
 
-
-function Splash({navigation}){
-
-
-  const loadAfterTime = ()=>{
-    showToast('success', 'WELCOME')
-     navigation.replace('Signin')
-  }
-
-  /***
-   * this will run when screen turns on
-   */
+function Splash({ navigation }) {
   useEffect(() => {
-    // to wait for  atime we use power of timeout
-     setTimeout(loadAfterTime,3000); 
-  }, [])
-
+    // aya k user na previous login kra hua th ak nei
+    getUserLoggedInStatus()
+      .then((response) => {
+        if (response === "true") {
+          navigation.replace("Home");
+        } else {
+          navigation.replace("Signin");
+        }
+      })
+      .catch((error) => {
+        showToast("error", error.message);
+      });
+  }, []);
 
   return (
     <View style={styles.mainCon}>
-         <Loading/>
+      <Loading />
     </View>
-  )
+  );
 }
 
+const styles = StyleSheet.create({
+  mainCon: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "red",
+  },
+});
 
-const styles=  StyleSheet.create({
-    mainCon: {
-      flex:1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor:'red'
-    }
-})
-
-
-export {Splash}
+export { Splash };
