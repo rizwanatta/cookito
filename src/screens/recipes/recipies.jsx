@@ -4,7 +4,7 @@ import {TouchableOpacity,ImageBackground, View, Text ,FlatList } from "react-nat
 import { Input } from "../../components/input";
 import { firebase } from "../../services/firebaseConfig";
 
-function Recipies() {
+function Recipies({navigation}) {
 
   const [showAddRecipy, setShowAddRecipy] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -40,7 +40,10 @@ function Recipies() {
     return (
       <TouchableOpacity 
       style={{width:'100%'}}
-      onLongPress={()=>onRecipyLongPress(recipyId)}
+      onPress={()=>
+        navigation.navigate('RecipeDetail', {recipy:recipy})
+
+      }
       >
        <ImageBackground
         style={{ width: '100%', height: 120, justifyContent: 'center', alignItems: 'center', marginVertical:10}}
