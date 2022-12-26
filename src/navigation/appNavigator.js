@@ -11,6 +11,7 @@ import { Splash } from "../screens/splash/splash";
 import { Settings } from "../screens/settings/settings";
 import { Recipies } from "../screens/recipes/recipies";
 import { RecipeDetail } from "../screens/recipeDetail/recipeDetail";
+import { MapArea } from "../screens/mapArea/maparea";
 
 function MainNav() {
   const Stack = createNativeStackNavigator();
@@ -56,6 +57,7 @@ function MainNav() {
         <Stack.Screen name="Recipies" component={Recipies} />
         <Stack.Screen name="RecipeDetail" component={RecipeDetail} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="MapArea" component={MapArea} />
       </Stack.Navigator>
     </NavigationContainer>
   );

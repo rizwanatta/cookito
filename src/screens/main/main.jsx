@@ -134,16 +134,18 @@ function Main({ navigation }) {
         onRefresh={() => fetchRecipesFromDB()}
       />
 
-      <View
-        style={{ backgroundColor: "red", height: 100, width: "100%" }}
-      >
-        <Counter/>
-
-    </View>
+      <View style={{ backgroundColor: "red", height: 100, width: "100%" }}>
+        <Counter />
+      </View>
 
       <BButton
         title={"go to recipies lists"}
         onButtonPress={() => navigation.navigate("Recipies")}
+      />
+
+      <BButton
+        title={"go to map"}
+        onButtonPress={() => navigation.navigate("MapArea")}
       />
 
       <Text style={{ fontSize: 50 }}>
