@@ -10,16 +10,20 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-community/slider": "^4.4.0",
     "@react-navigation/bottom-tabs": "^6.5.1",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "dayjs": "^1.11.7",
     "expo": "~47.0.6",
+    "expo-av": "^13.0.2",
     "expo-camera": "~13.1.0",
     "expo-dev-client": "^2.0.1",
     "expo-image-picker": "^14.0.2",
     "expo-linear-gradient": "~12.0.1",
+    "expo-location": "~15.0.1",
     "expo-status-bar": "~1.4.2",
+    "expo-video-player": "^2.2.0",
     "firebase": "^7.24.0",
     "lottie-react-native": "^5.1.4",
     "react": "18.1.0",
@@ -33,8 +37,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-swiper": "^1.6.0",
     "react-native-toast-message": "^2.1.5",
-    "react-native-webview": "^11.25.1",
-    "expo-location": "~15.0.1"
+    "react-native-webview": "^11.25.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

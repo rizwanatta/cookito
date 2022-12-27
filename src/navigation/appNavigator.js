@@ -12,6 +12,7 @@ import { Settings } from "../screens/settings/settings";
 import { Recipies } from "../screens/recipes/recipies";
 import { RecipeDetail } from "../screens/recipeDetail/recipeDetail";
 import { MapArea } from "../screens/mapArea/maparea";
+import { VideoPage } from "../screens/videoPage/videopage";
 
 function MainNav() {
   const Stack = createNativeStackNavigator();
@@ -51,6 +52,7 @@ function MainNav() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="VideoPage" component={VideoPage} />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Signin" component={Signin} />
         <Stack.Screen name="Signup" component={Signup} />
