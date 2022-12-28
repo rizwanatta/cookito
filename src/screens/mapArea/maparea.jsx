@@ -30,9 +30,7 @@ function MapArea({ navigation, route }) {
         zoomControlEnabled
         mapType="satellite"
       >
-        {/* <Marker
-          title="hie"
-          coordinate={{ latitude: 31.515997, longitude: 74.3428656 }}
+        {/* <Marke±±±±±±±±±±    ={{ latitude: 31.515997, longitude: 74.3428656 }}
         /> */}
       </MapView>
     </View>

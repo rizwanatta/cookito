@@ -21,7 +21,7 @@ function MainNav() {
 
   const iconSize = 18;
 
-  const Home = () => (
+  const TabNav = () => (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => (
@@ -58,7 +58,7 @@ function MainNav() {
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Recipies" component={Recipies} />
         <Stack.Screen name="RecipeDetail" component={RecipeDetail} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={TabNav} />
         <Stack.Screen name="MapArea" component={MapArea} />
       </Stack.Navigator>
     </NavigationContainer>
