@@ -28,7 +28,6 @@ function Settings({ navigation }) {
         <BButton title={"open calendar"} onButtonPress={openCalendar} />
       </Animated.View>
 
-      <Calendar minDate={dayjs().format("YYYY-MM-DD")} />
       <BButton onButtonPress={attemptToLogout} title={"Sign Out"} />
       <Toast />
     </View>

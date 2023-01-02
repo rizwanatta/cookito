@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MainNav } from "./src/navigation/appNavigator";
 import Toast from 'react-native-toast-message'
